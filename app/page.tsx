@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 
 import Image from "next/image";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 const Icon = ({ name }: { name: "menu" | "search" | "user" | "bag" | "home" | "arrow" | "check" }) => {
   const paths = {
@@ -45,6 +45,15 @@ export default function Home() {
   const matchesOneLitre = matchesCommonProduct || (normalizedSearch.length >= 2 && ["1 litre", "1 liter", "1l", "single", "bottle"].some((term) => term.includes(normalizedSearch) || normalizedSearch.includes(term)));
   const matchesFiveLitre = matchesCommonProduct || (normalizedSearch.length >= 2 && ["5 litre", "5 liter", "5l", "family", "saver", "pack"].some((term) => term.includes(normalizedSearch) || normalizedSearch.includes(term)));
 
+  useEffect(() => {
+    const requestedPack = new URLSearchParams(window.location.search).get("pack");
+    const frame = window.requestAnimationFrame(() => {
+      if (requestedPack === "5") setPack(5);
+      if (requestedPack === "1") setPack(1);
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
   function addToCart() {
     setCartPack(pack);
     setCartCount((count) => count + quantity);
@@ -75,7 +84,7 @@ export default function Home() {
       <header className="shop-header">
         <button className="mobile-menu" onClick={() => setMenuOpen(!menuOpen)} aria-label="Open menu"><Icon name="menu" /></button>
         <div className={`header-left ${menuOpen ? "open" : ""}`}>
-          <a className="products-pill" href="#product" onClick={() => setMenuOpen(false)}><Icon name="bag" /> Our Oil <span>⌄</span></a>
+          <a className="products-pill" href="/oils" onClick={() => setMenuOpen(false)}><Icon name="bag" /> Our Oil <span>⌄</span></a>
           <a className="icon-link" href="#home" aria-label="Home"><Icon name="home" /></a>
           <a className="icon-link" href="#contact" aria-label="Account"><Icon name="user" /></a>
           <a href="#story" onClick={() => setMenuOpen(false)}>Our story</a>
@@ -99,7 +108,7 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="category-bar"><a href="#product">Kachi Ghani Oil</a><a href="#benefits">Benefits</a><a href="#process">Our Process</a><a href="#details">Ingredients</a><a href="#reviews">Reviews</a><a href="#faqs">FAQs</a></div>
+      <div className="category-bar"><a href="/oils">Kachi Ghani Oil</a><a href="#benefits">Benefits</a><a href="#process">Our Process</a><a href="#details">Ingredients</a><a href="#reviews">Reviews</a><a href="#faqs">FAQs</a></div>
 
       <section className="product-page" id="home">
         <div className="breadcrumbs"><a href="#home">Home</a><span>/</span><a href="#product">Mustard Oil</a><span>/</span><strong>Barsana Kachi Ghani</strong></div>
