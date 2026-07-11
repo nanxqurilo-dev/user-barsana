@@ -36,8 +36,8 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const price = pack === 1 ? 299 : 1399;
   const mrp = pack === 1 ? 349 : 1745;
-  const selectedFrontImage = pack === 5 ? "/image/5l-front.png" : "/image/front-bottle.png";
-  const selectedBackImage = pack === 5 ? "/image/5l-back.png" : "/image/back-bottle.png";
+  const selectedFrontImage = pack === 5 ? "/image/5ltr-front.png" : "/image/front-bottle.png";
+  const selectedBackImage = pack === 5 ? "/image/5lt-back.png" : "/image/back-bottle.png";
   const selectedProductImage = view === "front" ? selectedFrontImage : selectedBackImage;
   const normalizedSearch = searchQuery.trim().toLowerCase();
   const commonSearchTerms = ["barsana", "kachi", "ghani", "mustard", "oil", "wood pressed", "cold pressed"];
