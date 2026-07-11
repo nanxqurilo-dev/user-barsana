@@ -36,6 +36,9 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const price = pack === 1 ? 299 : 1399;
   const mrp = pack === 1 ? 349 : 1745;
+  const selectedFrontImage = pack === 5 ? "/image/5l-front.png" : "/image/front-bottle.png";
+  const selectedBackImage = pack === 5 ? "/image/5l-back.png" : "/image/back-bottle.png";
+  const selectedProductImage = view === "front" ? selectedFrontImage : selectedBackImage;
   const normalizedSearch = searchQuery.trim().toLowerCase();
   const commonSearchTerms = ["barsana", "kachi", "ghani", "mustard", "oil", "wood pressed", "cold pressed"];
   const matchesCommonProduct = normalizedSearch.length >= 2 && commonSearchTerms.some((term) => term.includes(normalizedSearch) || normalizedSearch.includes(term));
@@ -87,7 +90,7 @@ export default function Home() {
             {searchOpen && normalizedSearch.length >= 2 && <div className="search-results">
               <div className="search-results-head"><span>Products</span><small>{Number(matchesOneLitre) + Number(matchesFiveLitre)} found</small></div>
               {matchesOneLitre && <button type="button" onClick={() => openProduct(1)}><span className="search-image"><Image src="/image/front-bottle.png" alt="Barsana 1 litre mustard oil" width={48} height={88} /></span><span><strong>Barsana Kachi Ghani Mustard Oil</strong><small>1 litre bottle · Wood pressed</small><b>₹299.00 <del>₹349.00</del></b><em>View & buy →</em></span></button>}
-              {matchesFiveLitre && <button type="button" onClick={() => openProduct(5)}><span className="search-image search-pack"><Image src="/image/front-bottle.png" alt="Barsana 5 litre family pack" width={42} height={78} /><Image src="/image/front-bottle.png" alt="" width={42} height={78} /></span><span><strong>Barsana Family Saver Pack</strong><small>5 × 1 litre bottles · Money saver</small><b>₹1,399.00 <del>₹1,745.00</del></b><em>View & buy →</em></span></button>}
+              {matchesFiveLitre && <button type="button" onClick={() => openProduct(5)}><span className="search-image search-pack"><Image src="/image/5l-front.png" alt="Barsana 5 litre mustard oil jar" width={58} height={88} /></span><span><strong>Barsana 5L Family Saver Jar</strong><small>5 litre jar · Money saver</small><b>₹1,399.00 <del>₹1,745.00</del></b><em>View & buy →</em></span></button>}
               {!matchesOneLitre && !matchesFiveLitre && <div className="no-search-result"><strong>No product found</strong><span>Try searching “mustard oil”, “1 litre” or “family pack”.</span></div>}
             </div>}
           </form>
@@ -103,8 +106,8 @@ export default function Home() {
         <div className="product-grid" id="product">
           <div className="gallery">
             <div className="thumbs">
-              <button className={view === "front" ? "active" : ""} onClick={() => setView("front")}><Image src="/image/front-bottle.png" alt="Front view thumbnail" width={72} height={132} /></button>
-              <button className={view === "back" ? "active" : ""} onClick={() => setView("back")}><Image src="/image/back-bottle.png" alt="Back view thumbnail" width={72} height={132} /></button>
+              <button className={view === "front" ? "active" : ""} onClick={() => setView("front")}><Image src={selectedFrontImage} alt={`${pack} litre front view thumbnail`} width={72} height={132} /></button>
+              <button className={view === "back" ? "active" : ""} onClick={() => setView("back")}><Image src={selectedBackImage} alt={`${pack} litre back view thumbnail`} width={72} height={132} /></button>
             </div>
             <div className="main-image">
               <span className="save-badge">SAVE {Math.round(((mrp-price)/mrp)*100)}%</span>
@@ -113,7 +116,7 @@ export default function Home() {
                 onClick={() => setView(view === "front" ? "back" : "front")}
                 aria-label={`Showing ${view} view. Click to show ${view === "front" ? "back" : "front"} view`}
               >
-                <Image key={view} src={`/image/${view}-bottle.png`} alt={`Barsana mustard oil ${view} view`} width={461} height={853} priority />
+                <Image key={`${pack}-${view}`} src={selectedProductImage} alt={`Barsana ${pack} litre mustard oil ${view} view`} width={pack === 5 ? 1024 : 461} height={pack === 5 && view === "front" ? 1536 : pack === 5 ? 1698 : 853} priority />
               </button>
               <span className="turn-hint">↻ Click bottle to see {view === "front" ? "back" : "front"} view</span>
             </div>
@@ -129,7 +132,7 @@ export default function Home() {
             <div className="selector-title"><strong>Select your quantity</strong><span>Most loved family packs</span></div>
             <div className="pack-options">
               <button className={pack === 1 ? "selected" : ""} onClick={() => {setPack(1); setQuantity(1);}}><span className="tag">BESTSELLER</span><strong>1 Litre</strong><span>1 bottle</span><b>₹299 <del>₹349</del></b></button>
-              <button className={pack === 5 ? "selected" : ""} onClick={() => {setPack(5); setQuantity(1);}}><span className="tag">MONEY SAVER</span><strong>5 Litre</strong><span>5 × 1L bottles</span><b>₹1,399 <del>₹1,745</del></b></button>
+              <button className={pack === 5 ? "selected" : ""} onClick={() => {setPack(5); setQuantity(1);}}><span className="tag">MONEY SAVER</span><strong>5 Litre</strong><span>5L family jar</span><b>₹1,399 <del>₹1,745</del></b></button>
             </div>
             <div className="demand"><span>👨‍👩‍👧‍👦</span><p><strong>1,000+ families</strong> chose Barsana this month</p></div>
             <div className="purchase-row"><div className="quantity"><button onClick={() => setQuantity(Math.max(1,quantity-1))} aria-label="Decrease quantity">−</button><output>{quantity}</output><button onClick={() => setQuantity(quantity+1)} aria-label="Increase quantity">+</button></div><button className="add-button" onClick={addToCart}>ADD TO CART — ₹{(price*quantity).toLocaleString("en-IN")}</button></div>
@@ -164,8 +167,8 @@ export default function Home() {
             <span><strong>Barsana Kachi Ghani Oil</strong><small>1 litre bottle</small><b><del>₹349</del> ₹299</b><em>VIEW PRODUCT →</em></span>
           </button>
           <button className="suggestion" onClick={() => openProduct(5)}>
-            <span className="bottle-group"><Image src="/image/front-bottle.png" alt="Barsana 5 litre pack" width={70} height={130} /><Image src="/image/front-bottle.png" alt="" width={70} height={130} /></span>
-            <span><strong>Barsana Family Saver Pack</strong><small>5 × 1 litre bottles</small><b><del>₹1,745</del> ₹1,399</b><em>SELECT OPTIONS →</em></span>
+            <span className="bottle-group"><Image src="/image/5l-front.png" alt="Barsana 5 litre jar" width={82} height={130} /></span>
+            <span><strong>Barsana 5L Family Saver Jar</strong><small>5 litre jar</small><b><del>₹1,745</del> ₹1,399</b><em>SELECT OPTIONS →</em></span>
           </button>
         </section>
         <section className="cart-content">
@@ -173,7 +176,7 @@ export default function Home() {
           {cartCount ? <>
             <div className="shipping-message"><strong>Congratulations! You've earned free shipping!</strong><div><span style={{width: `${Math.min(100, ((cartUnitPrice * cartCount) / 500) * 100)}%`}}></span></div></div>
             <div className="cart-item">
-              <button className="cart-product-image" onClick={() => openProduct(cartPack)} aria-label="Open product page"><Image src="/image/front-bottle.png" alt="Barsana Kachi Ghani mustard oil" width={92} height={170} /></button>
+              <button className="cart-product-image" onClick={() => openProduct(cartPack)} aria-label="Open product page"><Image src={cartPack === 5 ? "/image/5l-front.png" : "/image/front-bottle.png"} alt={`Barsana ${cartPack} litre Kachi Ghani mustard oil`} width={92} height={170} /></button>
               <div className="cart-item-info"><button className="cart-product-name" onClick={() => openProduct(cartPack)}>Barsana Kachi Ghani Mustard Oil</button><span>{cartPack} Litre {cartPack === 5 ? "family pack" : "bottle"}</span><div className="cart-line-price"><del>₹{cartMrp.toLocaleString("en-IN")}</del><strong>₹{cartUnitPrice.toLocaleString("en-IN")}</strong><em>{Math.round(((cartMrp-cartUnitPrice)/cartMrp)*100)}% OFF</em></div><div className="cart-actions"><div className="quantity"><button onClick={() => setCartCount(Math.max(1,cartCount-1))}>−</button><output>{cartCount}</output><button onClick={() => setCartCount(cartCount+1)}>+</button></div><button className="delete-item" onClick={() => setCartCount(0)}>▣ Delete</button></div></div>
             </div>
             <div className="cart-summary"><div><span>SUBTOTAL</span><strong>₹{(cartUnitPrice*cartCount).toLocaleString("en-IN")}.00</strong></div><a href="mailto:orders@barsana.in?subject=Barsana%20Mustard%20Oil%20Order" className="checkout">PROCEED TO CHECKOUT</a><p>UPI &nbsp; • &nbsp; VISA &nbsp; • &nbsp; Mastercard &nbsp; • &nbsp; Paytm</p></div>

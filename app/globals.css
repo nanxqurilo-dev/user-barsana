@@ -26,3 +26,6 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}main{width:100%;min-width:
 /* Responsive category navigation */
 @media(max-width:620px){.category-bar{height:auto;min-height:88px;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;overflow:visible;background:#f4f0dc}.category-bar a{min-width:0;min-height:44px;padding:9px 6px;display:flex;align-items:center;justify-content:center;text-align:center;white-space:normal;border-right:1px solid #ded9c2;border-bottom:1px solid #ded9c2;font-size:9px;line-height:1.35;letter-spacing:.04em}.category-bar a:nth-child(3n){border-right:0}.category-bar a:nth-child(n+4){border-bottom:0}}
 @media(max-width:350px){.category-bar{grid-template-columns:repeat(2,minmax(0,1fr));min-height:126px}.category-bar a:nth-child(3n){border-right:1px solid #ded9c2}.category-bar a:nth-child(2n){border-right:0}.category-bar a:nth-child(n+4){border-bottom:1px solid #ded9c2}.category-bar a:nth-child(n+5){border-bottom:0}}
+
+/* 5 litre jar previews */
+.search-image.search-pack img{width:auto;height:72px;margin:0}.bottle-group img{width:auto;height:115px;margin:0}.cart-product-image img{max-width:90%;object-fit:contain}
