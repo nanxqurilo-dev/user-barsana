@@ -33,8 +33,14 @@ export default function Home() {
   const [cartOpen, setCartOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const price = pack === 1 ? 299 : 1399;
   const mrp = pack === 1 ? 349 : 1745;
+  const normalizedSearch = searchQuery.trim().toLowerCase();
+  const commonSearchTerms = ["barsana", "kachi", "ghani", "mustard", "oil", "wood pressed", "cold pressed"];
+  const matchesCommonProduct = normalizedSearch.length >= 2 && commonSearchTerms.some((term) => term.includes(normalizedSearch) || normalizedSearch.includes(term));
+  const matchesOneLitre = matchesCommonProduct || (normalizedSearch.length >= 2 && ["1 litre", "1 liter", "1l", "single", "bottle"].some((term) => term.includes(normalizedSearch) || normalizedSearch.includes(term)));
+  const matchesFiveLitre = matchesCommonProduct || (normalizedSearch.length >= 2 && ["5 litre", "5 liter", "5l", "family", "saver", "pack"].some((term) => term.includes(normalizedSearch) || normalizedSearch.includes(term)));
 
   function addToCart() {
     setCartPack(pack);
@@ -46,6 +52,8 @@ export default function Home() {
     setPack(selectedPack);
     setQuantity(1);
     setCartOpen(false);
+    setSearchOpen(false);
+    setSearchQuery("");
     window.setTimeout(() => document.getElementById("product")?.scrollIntoView({ behavior: "smooth" }), 100);
   }
 
@@ -54,8 +62,7 @@ export default function Home() {
 
   function submitSearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    document.getElementById("product")?.scrollIntoView({ behavior: "smooth" });
-    setSearchOpen(false);
+    openProduct(searchQuery.includes("5") || searchQuery.toLowerCase().includes("family") ? 5 : 1);
   }
 
   return (
@@ -72,7 +79,18 @@ export default function Home() {
         </div>
         <a className="shop-logo" href="#home" aria-label="Barsana home"><Image src="/image/logo png.png" alt="Barsana" width={104} height={104} priority /><span>Barsana<small>Pure by tradition</small></span></a>
         <div className="header-right">
-          <form className={`header-search ${searchOpen ? "open" : ""}`} onSubmit={submitSearch}><label className="sr-only" htmlFor="search">Search</label><input id="search" placeholder="Search Barsana oil..." /><button type="submit" aria-label="Search"><Icon name="search" /></button></form>
+          <form className={`header-search ${searchOpen ? "open" : ""}`} onSubmit={submitSearch}>
+            <label className="sr-only" htmlFor="search">Search</label>
+            <input id="search" value={searchQuery} onFocus={() => setSearchOpen(true)} onChange={(event) => {setSearchQuery(event.target.value); setSearchOpen(true);}} placeholder="Search products..." autoComplete="off" />
+            {searchOpen && searchQuery && <button type="button" className="clear-search" onClick={() => {setSearchQuery(""); setSearchOpen(false);}} aria-label="Clear search">×</button>}
+            <button type="submit" aria-label="Search"><Icon name="search" /></button>
+            {searchOpen && normalizedSearch.length >= 2 && <div className="search-results">
+              <div className="search-results-head"><span>Products</span><small>{Number(matchesOneLitre) + Number(matchesFiveLitre)} found</small></div>
+              {matchesOneLitre && <button type="button" onClick={() => openProduct(1)}><span className="search-image"><Image src="/image/front-bottle.png" alt="Barsana 1 litre mustard oil" width={48} height={88} /></span><span><strong>Barsana Kachi Ghani Mustard Oil</strong><small>1 litre bottle · Wood pressed</small><b>₹299.00 <del>₹349.00</del></b><em>View & buy →</em></span></button>}
+              {matchesFiveLitre && <button type="button" onClick={() => openProduct(5)}><span className="search-image search-pack"><Image src="/image/front-bottle.png" alt="Barsana 5 litre family pack" width={42} height={78} /><Image src="/image/front-bottle.png" alt="" width={42} height={78} /></span><span><strong>Barsana Family Saver Pack</strong><small>5 × 1 litre bottles · Money saver</small><b>₹1,399.00 <del>₹1,745.00</del></b><em>View & buy →</em></span></button>}
+              {!matchesOneLitre && !matchesFiveLitre && <div className="no-search-result"><strong>No product found</strong><span>Try searching “mustard oil”, “1 litre” or “family pack”.</span></div>}
+            </div>}
+          </form>
           <button className="search-toggle" onClick={() => setSearchOpen(!searchOpen)} aria-label="Toggle search"><Icon name="search" /></button>
           <button className="cart-button" onClick={() => setCartOpen(true)} aria-label={`Cart with ${cartCount} items`}><Icon name="bag" /><span>{cartCount}</span></button>
         </div>
