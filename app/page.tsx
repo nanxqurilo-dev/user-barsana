@@ -78,8 +78,14 @@ export default function Home() {
             </div>
             <div className="main-image">
               <span className="save-badge">SAVE {Math.round(((mrp-price)/mrp)*100)}%</span>
-              <Image key={view} src={`/image/${view}-bottle.png`} alt={`Barsana mustard oil ${view} view`} width={461} height={853} priority />
-              <div className="image-tabs"><button className={view === "front" ? "active" : ""} onClick={() => setView("front")}>Front view</button><button className={view === "back" ? "active" : ""} onClick={() => setView("back")}>Back view</button></div>
+              <button
+                className="bottle-toggle"
+                onClick={() => setView(view === "front" ? "back" : "front")}
+                aria-label={`Showing ${view} view. Click to show ${view === "front" ? "back" : "front"} view`}
+              >
+                <Image key={view} src={`/image/${view}-bottle.png`} alt={`Barsana mustard oil ${view} view`} width={461} height={853} priority />
+              </button>
+              <span className="turn-hint">↻ Click bottle to see {view === "front" ? "back" : "front"} view</span>
             </div>
           </div>
 
