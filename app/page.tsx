@@ -29,6 +29,7 @@ export default function Home() {
   const [pack, setPack] = useState<1 | 5>(1);
   const [quantity, setQuantity] = useState(1);
   const [cartCount, setCartCount] = useState(0);
+  const [cartPack, setCartPack] = useState<1 | 5>(1);
   const [cartOpen, setCartOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -36,9 +37,20 @@ export default function Home() {
   const mrp = pack === 1 ? 349 : 1745;
 
   function addToCart() {
+    setCartPack(pack);
     setCartCount((count) => count + quantity);
     setCartOpen(true);
   }
+
+  function openProduct(selectedPack: 1 | 5) {
+    setPack(selectedPack);
+    setQuantity(1);
+    setCartOpen(false);
+    window.setTimeout(() => document.getElementById("product")?.scrollIntoView({ behavior: "smooth" }), 100);
+  }
+
+  const cartUnitPrice = cartPack === 1 ? 299 : 1399;
+  const cartMrp = cartPack === 1 ? 349 : 1745;
 
   function submitSearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -126,7 +138,30 @@ export default function Home() {
 
       <footer><div className="footer-brand"><a className="shop-logo" href="#home"><Image src="/image/logo png.png" alt="Barsana" width={90} height={90} /><span>Barsana<small>Pure by tradition</small></span></a><p>Traditional Kachi Ghani mustard oil for modern Indian kitchens.</p></div><div><h3>Quick links</h3><a href="#product">Shop oil</a><a href="#story">Our story</a><a href="#benefits">Why Barsana</a></div><div><h3>Customer care</h3><a href="mailto:care@barsana.in">care@barsana.in</a><a href="#faqs">FAQs</a><a href="#contact">Contact us</a></div><div><h3>Follow our journey</h3><p>Instagram &nbsp; Facebook &nbsp; YouTube</p><small>© 2026 Barsana Foods. Made with care in India.</small></div></footer>
 
-      <aside className={`cart-drawer ${cartOpen ? "open" : ""}`} aria-hidden={!cartOpen}><div className="drawer-head"><strong>Your cart</strong><button onClick={() => setCartOpen(false)} aria-label="Close cart">×</button></div>{cartCount ? <><div className="cart-item"><Image src="/image/front-bottle.png" alt="" width={58} height={108} /><div><strong>Barsana Kachi Ghani Oil</strong><span>{pack} Litre pack × {cartCount}</span><b>₹{(price*cartCount).toLocaleString("en-IN")}</b></div></div><div className="cart-total"><span>Subtotal</span><strong>₹{(price*cartCount).toLocaleString("en-IN")}</strong></div><a href="mailto:orders@barsana.in" className="checkout">PROCEED TO CHECKOUT</a></> : <p className="empty-cart">Your cart is waiting for some golden goodness.</p>}</aside>
+      <aside className={`cart-drawer ${cartOpen ? "open" : ""}`} aria-hidden={!cartOpen}>
+        <section className="cart-suggestions">
+          <p className="cart-kicker">YOU MIGHT ALSO LIKE</p>
+          <button className="suggestion" onClick={() => openProduct(1)}>
+            <Image src="/image/front-bottle.png" alt="Barsana 1 litre mustard oil" width={86} height={158} />
+            <span><strong>Barsana Kachi Ghani Oil</strong><small>1 litre bottle</small><b><del>₹349</del> ₹299</b><em>VIEW PRODUCT →</em></span>
+          </button>
+          <button className="suggestion" onClick={() => openProduct(5)}>
+            <span className="bottle-group"><Image src="/image/front-bottle.png" alt="Barsana 5 litre pack" width={70} height={130} /><Image src="/image/front-bottle.png" alt="" width={70} height={130} /></span>
+            <span><strong>Barsana Family Saver Pack</strong><small>5 × 1 litre bottles</small><b><del>₹1,745</del> ₹1,399</b><em>SELECT OPTIONS →</em></span>
+          </button>
+        </section>
+        <section className="cart-content">
+          <div className="drawer-head"><strong>CART <small>{cartCount} {cartCount === 1 ? "item" : "items"}</small></strong><button onClick={() => setCartOpen(false)} aria-label="Close cart">×</button></div>
+          {cartCount ? <>
+            <div className="shipping-message"><strong>Congratulations! You've earned free shipping!</strong><div><span style={{width: `${Math.min(100, ((cartUnitPrice * cartCount) / 500) * 100)}%`}}></span></div></div>
+            <div className="cart-item">
+              <button className="cart-product-image" onClick={() => openProduct(cartPack)} aria-label="Open product page"><Image src="/image/front-bottle.png" alt="Barsana Kachi Ghani mustard oil" width={92} height={170} /></button>
+              <div className="cart-item-info"><button className="cart-product-name" onClick={() => openProduct(cartPack)}>Barsana Kachi Ghani Mustard Oil</button><span>{cartPack} Litre {cartPack === 5 ? "family pack" : "bottle"}</span><div className="cart-line-price"><del>₹{cartMrp.toLocaleString("en-IN")}</del><strong>₹{cartUnitPrice.toLocaleString("en-IN")}</strong><em>{Math.round(((cartMrp-cartUnitPrice)/cartMrp)*100)}% OFF</em></div><div className="cart-actions"><div className="quantity"><button onClick={() => setCartCount(Math.max(1,cartCount-1))}>−</button><output>{cartCount}</output><button onClick={() => setCartCount(cartCount+1)}>+</button></div><button className="delete-item" onClick={() => setCartCount(0)}>▣ Delete</button></div></div>
+            </div>
+            <div className="cart-summary"><div><span>SUBTOTAL</span><strong>₹{(cartUnitPrice*cartCount).toLocaleString("en-IN")}.00</strong></div><a href="mailto:orders@barsana.in?subject=Barsana%20Mustard%20Oil%20Order" className="checkout">PROCEED TO CHECKOUT</a><p>UPI &nbsp; • &nbsp; VISA &nbsp; • &nbsp; Mastercard &nbsp; • &nbsp; Paytm</p></div>
+          </> : <div className="empty-cart"><strong>Your cart is empty</strong><p>Add some golden goodness to get started.</p><button onClick={() => openProduct(1)}>SHOP MUSTARD OIL</button></div>}
+        </section>
+      </aside>
       {cartOpen && <button className="overlay" onClick={() => setCartOpen(false)} aria-label="Close cart overlay" />}
     </main>
   );
