@@ -4,6 +4,7 @@
 import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 import OilInformation from "./components/OilInformation";
+import OilMediaSection from "./components/OilMediaSection";
 
 const Icon = ({ name }: { name: "menu" | "search" | "user" | "bag" | "home" | "arrow" | "check" }) => {
   const paths = {
@@ -154,6 +155,7 @@ export default function Home() {
       </section>
 
       <OilInformation />
+      <OilMediaSection />
 
       <section className="usp-row" id="benefits"><div><b>01</b><span><strong>Wood pressed</strong>Slow extracted in a traditional kolhu</span></div><div><b>02</b><span><strong>100% pure</strong>No chemicals or preservatives</span></div><div><b>03</b><span><strong>Rich aroma</strong>Authentic bold mustard flavour</span></div><div><b>04</b><span><strong>Farm sourced</strong>Made from selected quality seeds</span></div></section>
 
