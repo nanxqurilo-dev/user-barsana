@@ -5,6 +5,7 @@ import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 import OilInformation from "./components/OilInformation";
 import OilMediaSection from "./components/OilMediaSection";
+import LoginTrigger from "./components/LoginTrigger";
 
 const Icon = ({ name }: { name: "menu" | "search" | "user" | "bag" | "home" | "arrow" | "check" }) => {
   const paths = {
@@ -88,7 +89,7 @@ export default function Home() {
         <div className={`header-left ${menuOpen ? "open" : ""}`}>
           <a className="products-pill" href="/oils" onClick={() => setMenuOpen(false)}><Icon name="bag" /> Our Oil <span>⌄</span></a>
           <a className="icon-link" href="#home" aria-label="Home"><Icon name="home" /></a>
-          <a className="icon-link" href="#contact" aria-label="Account"><Icon name="user" /></a>
+          <LoginTrigger className="icon-link" />
           <a href="#story" onClick={() => setMenuOpen(false)}>Our story</a>
         </div>
         <a className="shop-logo" href="#home" aria-label="Barsana home"><Image src="/image/logo png.png" alt="Barsana" width={104} height={104} priority /><span>Barsana<small>Pure by tradition</small></span></a>

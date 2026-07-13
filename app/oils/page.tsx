@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
+import LoginTrigger from "../components/LoginTrigger";
 
 const oils = [
   {
@@ -36,7 +37,7 @@ export default function OilsPage() {
       <header className="catalog-header">
         <Link className="catalog-back" href="/">← Home</Link>
         <Link className="shop-logo" href="/" aria-label="Barsana home"><Image src="/image/logo png.png" alt="Barsana" width={84} height={84} priority /><span>Barsana<small>Pure by tradition</small></span></Link>
-        <Link className="catalog-cart" href="/?pack=1#product">Buy now →</Link>
+        <div className="flex items-center justify-end gap-2"><LoginTrigger /><Link className="catalog-cart" href="/?pack=1#product">Buy now →</Link></div>
       </header>
 
       <section className="catalog-hero">
