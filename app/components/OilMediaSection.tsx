@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { useState } from "react";
 
-// Replace this ID later with the final Barsana Vimeo video ID.
-const TEMPORARY_VIDEO_ID = "1085982730";
+// Replace this ID later with the final Barsana YouTube video ID.
+const TEMPORARY_YOUTUBE_VIDEO_ID = "avof93b4rbg";
 
 export default function OilMediaSection() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -51,9 +51,10 @@ export default function OilMediaSection() {
             {isPlaying ? (
               <iframe
                 className="absolute inset-0 size-full border-0"
-                src={`https://player.vimeo.com/video/${TEMPORARY_VIDEO_ID}?autoplay=1&title=0&byline=0&portrait=0`}
+                src={`https://www.youtube-nocookie.com/embed/${TEMPORARY_YOUTUBE_VIDEO_ID}?autoplay=1&controls=1&cc_load_policy=1&fs=1&playsinline=1&rel=0&modestbranding=1`}
                 title="Temporary mustard oil process video"
-                allow="autoplay; fullscreen; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
               />
             ) : (
@@ -84,7 +85,7 @@ export default function OilMediaSection() {
           </div>
 
           <div className="mx-auto flex w-[92%] items-center justify-between rounded-b-2xl bg-[#25482b] px-5 py-3 text-[9px] font-bold tracking-[0.08em] text-[#dbe6d6] max-sm:w-[94%] max-sm:px-3 max-sm:text-[7px]">
-            <span>{isPlaying ? "NOW PLAYING" : "CLICK TO PLAY"}</span>
+            <span>{isPlaying ? "YOUTUBE PLAYER · CONTROLS ENABLED" : "CLICK TO PLAY"}</span>
             <button className="border-0 bg-transparent text-[#f2c34b] underline-offset-4 hover:underline" type="button" onClick={() => setIsPlaying(!isPlaying)}>{isPlaying ? "CLOSE VIDEO" : "PLAY INSIDE PAGE"}</button>
           </div>
         </div>
