@@ -99,7 +99,7 @@ export default function Home() {
             {searchOpen && normalizedSearch.length >= 2 && <div className="search-results">
               <div className="search-results-head"><span>Products</span><small>{Number(matchesOneLitre) + Number(matchesFiveLitre)} found</small></div>
               {matchesOneLitre && <button type="button" onClick={() => openProduct(1)}><span className="search-image"><Image src="/image/front-bottle.png" alt="Barsana 1 litre mustard oil" width={48} height={88} /></span><span><strong>Barsana Kachi Ghani Mustard Oil</strong><small>1 litre bottle · Wood pressed</small><b>₹299.00 <del>₹349.00</del></b><em>View & buy →</em></span></button>}
-              {matchesFiveLitre && <button type="button" onClick={() => openProduct(5)}><span className="search-image search-pack"><Image src="/image/5l-front.png" alt="Barsana 5 litre mustard oil jar" width={58} height={88} /></span><span><strong>Barsana 5L Family Saver Jar</strong><small>5 litre jar · Money saver</small><b>₹1,399.00 <del>₹1,745.00</del></b><em>View & buy →</em></span></button>}
+              {matchesFiveLitre && <button type="button" onClick={() => openProduct(5)}><span className="search-image search-pack"><Image src="/image/5ltr-front.png" alt="Barsana 5 litre mustard oil jar" width={58} height={88} /></span><span><strong>Barsana 5L Family Saver Jar</strong><small>5 litre jar · Money saver</small><b>₹1,399.00 <del>₹1,745.00</del></b><em>View & buy →</em></span></button>}
               {!matchesOneLitre && !matchesFiveLitre && <div className="no-search-result"><strong>No product found</strong><span>Try searching “mustard oil”, “1 litre” or “family pack”.</span></div>}
             </div>}
           </form>
