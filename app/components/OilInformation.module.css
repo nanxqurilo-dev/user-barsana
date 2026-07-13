@@ -1,0 +1,119 @@
+.section {
+  position: relative;
+  padding: 90px 6%;
+  overflow: hidden;
+  background: #e3b326;
+  color: #1d3b20;
+}
+
+.section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .16;
+  background-image: radial-gradient(#624b13 .7px, transparent .7px);
+  background-size: 9px 9px;
+}
+
+.decoration {
+  position: absolute;
+  top: -28px;
+  left: -25px;
+  width: 330px;
+  height: 120px;
+  border-bottom: 8px solid #5a7139;
+  border-radius: 50%;
+  transform: rotate(-8deg);
+  opacity: .8;
+}
+
+.decoration span {
+  position: absolute;
+  bottom: -7px;
+  width: 24px;
+  height: 48px;
+  border-radius: 100% 0 100% 0;
+  background: #315e2c;
+}
+.decoration span:nth-child(1) { left: 100px; transform: rotate(-25deg); }
+.decoration span:nth-child(2) { left: 180px; bottom: -18px; transform: rotate(35deg); }
+.decoration span:nth-child(3) { left: 255px; transform: rotate(-18deg); }
+
+.intro, .layout { position: relative; z-index: 1; }
+.intro { margin: 0 auto 38px; text-align: center; }
+.intro > p { margin: 0; color: #53683a; font-size: 10px; font-weight: 800; letter-spacing: .2em; }
+.intro h2 { margin: 12px 0 0; color: #1d3b20; font: 500 clamp(38px, 4vw, 52px)/1.06 Georgia, serif; }
+.intro h2 em { color: #75500e; font-weight: 400; }
+
+.layout {
+  max-width: 1500px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: minmax(320px, .82fr) minmax(0, 1.38fr);
+  gap: 32px;
+  align-items: stretch;
+}
+
+.tabs { display: flex; flex-direction: column; gap: 12px; }
+.tabs button {
+  min-height: 66px;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 38px 1fr 24px;
+  gap: 10px;
+  align-items: center;
+  text-align: left;
+  border: 1px solid rgba(30, 58, 32, .12);
+  border-radius: 14px;
+  background: #fffdf5;
+  color: #60753e;
+  font: 600 17px/1.25 Georgia, serif;
+  transition: transform .2s ease, background .2s ease, color .2s ease;
+}
+.tabs button:hover { transform: translateX(5px); }
+.tabs button > span { color: #a99c75; font: italic 11px Georgia, serif; }
+.tabs button > b { font: 400 17px Arial, sans-serif; text-align: right; }
+.tabs .activeTab { background: #2c4b2b; color: #fff9e8; border-color: #2c4b2b; box-shadow: 0 14px 28px rgba(44, 75, 43, .16); }
+.tabs .activeTab > span, .tabs .activeTab > b { color: #e7b93b; }
+
+.panel {
+  min-height: 378px;
+  padding: 44px 48px;
+  border-radius: 22px;
+  background: #fffdf6;
+  box-shadow: 0 20px 45px rgba(87, 58, 8, .12);
+  animation: reveal .28s ease;
+}
+@keyframes reveal { from { opacity: .35; transform: translateY(6px); } }
+.eyebrow { margin: 0; color: #9b7119; font-size: 9px; font-weight: 800; letter-spacing: .17em; text-transform: uppercase; }
+.panel h3 { max-width: 700px; margin: 11px 0 22px; color: #1d3b20; font: 600 clamp(25px, 2.4vw, 35px)/1.18 Georgia, serif; }
+.copy p { margin: 0 0 13px; color: #566554; font-size: 13px; line-height: 1.75; }
+.points { margin-top: 24px; padding-top: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; border-top: 1px solid #e0dbc9; }
+.points span { display: flex; align-items: flex-start; gap: 8px; color: #43573d; font-size: 10px; font-weight: 700; line-height: 1.5; }
+.points i { width: 19px; height: 19px; flex: 0 0 19px; display: grid; place-items: center; border-radius: 50%; background: #e4edda; color: #49683b; font-size: 9px; font-style: normal; }
+
+@media (max-width: 980px) {
+  .section { padding: 78px 5%; }
+  .layout { grid-template-columns: 1fr; }
+  .tabs { display: grid; grid-template-columns: 1fr 1fr; }
+  .tabs button:last-child { grid-column: 1 / -1; }
+}
+
+@media (max-width: 620px) {
+  .section { padding: 68px 14px; }
+  .decoration { width: 230px; height: 85px; }
+  .intro { margin-bottom: 28px; }
+  .tabs { display: flex; gap: 8px; }
+  .tabs button { min-height: 58px; padding: 0 15px; grid-template-columns: 30px 1fr 18px; border-radius: 10px; font-size: 13px; }
+  .tabs button:hover { transform: none; }
+  .panel { min-height: 0; padding: 28px 20px; border-radius: 15px; }
+  .panel h3 { font-size: 25px; }
+  .copy p { font-size: 12px; }
+  .points { grid-template-columns: 1fr; gap: 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel { animation: none; }
+  .tabs button { transition: none; }
+}
